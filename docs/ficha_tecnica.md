@@ -6,7 +6,7 @@
 - BigQuery: `projeto-spotify-513019.dados_spotify`
 - Fontes finais: `Track_in_spotify_final` (839 registros) e `Track_in_competition_final` (953 registros)
 - Integração: `vw_spotify_integrado`, com `LEFT JOIN` em `track_id` (839 registros)
-- Visualização: Looker Studio; gestão e documentação: Jira/Confluence
+- Visualização: Data Studio; gestão e documentação: Jira/Confluence
 
 ## Etapas
 1. Remoção de duplicatas exatas e padronização de tipos/categorias.
