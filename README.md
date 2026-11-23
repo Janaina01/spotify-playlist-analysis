@@ -1,60 +1,81 @@
 # Spotify | Playlists e desempenho musical 🎧
 
-Projeto desenvolvido no módulo de dados durante curso de capacitação na **Laboratoria**, investigando a relação entre presença de músicas em playlists, rankings e volume de streams no Spotify.
+**Projeto de análise de dados desenvolvido durante a capacitação da Laboratoria.** Investigação da relação entre presença de músicas em playlists, rankings musicais (*charts*) e streams acumulados no Spotify, com foco em apoiar hipóteses e decisões de curadoria.
 
-## Pergunta de negócio
+**[🌐 Conhecer o portfólio](https://janaina01.github.io/spotify-playlist-analysis/)** · **[📄 Ler a ficha técnica](https://janaina01.github.io/spotify-playlist-analysis/ficha-tecnica.html)** · **[📊 Explorar o dashboard interativo](https://datastudio.google.com/reporting/d1a84072-af82-44c5-b6d8-b8ee2670ac36)**
 
-**Músicas presentes em mais playlists apresentam mais streams?** Como essa relação varia entre plataformas e entre músicas presentes ou ausentes dos charts?
+## Perguntas de negócio
+
+1. Músicas presentes em mais playlists tendem a acumular mais streams?
+2. Músicas presentes nos charts do Spotify apresentam desempenho diferente das que estão fora deles?
 
 ## Principais resultados
 
-|Indicador|Resultado|
-|-|-:|
-|Músicas analisadas|839|
-|Correlação playlists Spotify × streams Spotify|0,7882|
-|Correlação playlists Apple Music × streams Spotify|0,7748|
-|Correlação playlists Deezer × streams Spotify|0,5990|
-|Diferença na média de streams: nos charts vs fora|+77,8%|
+| Indicador | Resultado |
+| --- | ---: |
+| Músicas analisadas na base integrada | **839** |
+| Correlação entre playlists do Spotify e streams do Spotify | **0,7882** |
+| Correlação entre playlists da Apple Music e streams do Spotify | **0,7748** |
+| Correlação entre playlists do Deezer e streams do Spotify | **0,5990** |
+| Média de streams de músicas nos charts versus fora dos charts | **+77,8%** |
 
-**Interpretação:** há associações positivas entre presença em playlists e streams acumulados, mas esses resultados **não comprovam causalidade nem mensuram o retorno da curadoria editorial**.
+A correlação positiva entre playlists do Spotify e streams permaneceu forte (**r = 0,7759**) em uma análise de sensibilidade que excluiu valores de streams acima do percentil 99. Na comparação de charts, foram utilizados **834 registros válidos**: 473 músicas presentes nos charts (média aproximada de 663 milhões de streams) e 361 ausentes (média aproximada de 372,8 milhões).
 
-## Tecnologias
+> **Interpretação:** os resultados mostram associações entre playlists, rankings e streams acumulados. **Não demonstram causalidade nem permitem mensurar o retorno financeiro da curadoria editorial.** Nas análises entre plataformas, a variável de reproduções é sempre o total de streams **do Spotify**.
 
-`SQL` · `Google BigQuery` · `Looker Studio` · `Jira` · `Confluence`
+## Dashboard executivo
 
-## Etapas do projeto
+![Dashboard executivo — Playlists e desempenho musical](assets/dashboard.png)
 
-1. Exploração, identificação de nulos e duplicatas.
-2. Preparação e padronização de dados.
-3. Integração de tabelas por `track\\\_id`.
-4. Análise exploratória e correlações de Pearson.
-5. Construção de dashboard executivo.
+**[Abrir dashboard interativo no Data Studio](https://datastudio.google.com/reporting/d1a84072-af82-44c5-b6d8-b8ee2670ac36)**
 
-## Estrutura
+## Ferramentas e etapas
 
-* [`sql/01\\\_preparacao\\\_dados.sql`](sql/01_preparacao_dados.sql): limpeza e padronização originais.
-* [`sql/02\\\_integracao\\\_views.sql`](sql/02_integracao_views.sql): criação de views e JOIN.
-* [`sql/03\\\_analise\\\_exploratoria.sql`](sql/03_analise_exploratoria.sql): consultas legíveis para explorar a amostra.
-* [`sql/04\\\_correlacoes.sql`](sql/04_correlacoes.sql): correlações recuperadas do histórico.
-* [`sql/05\\\_indicadores\\\_dashboard.sql`](sql/05_indicadores_dashboard.sql): comparação dos charts e tabela de KPIs.
-* [`sql/06\\\_validacoes.sql`](sql/06_validacoes.sql): verificações de integridade.
-* [`docs/ficha\\\_tecnica.md`](docs/ficha_tecnica.md): metodologia, resultados e limitações.
+**Ferramentas:** SQL, Google BigQuery, Data Studio, Jira, Confluence, Git e GitHub Pages.
 
-## Dashboard
+1. **Preparação:** identificação de nulos, duplicatas e valores extremos; padronização de países, gêneros e identificadores.
+2. **Integração:** relacionamento das tabelas de Spotify e concorrência por `track_id`, com `LEFT JOIN` e criação de view no BigQuery.
+3. **Exploração:** distribuição de músicas e streams por país, gênero e ano de lançamento.
+4. **Análise:** correlações de Pearson, análise de sensibilidade e comparação da média de streams entre músicas presentes e ausentes dos charts.
+5. **Comunicação:** dashboard executivo, ficha técnica e site público do projeto.
 
-**https://datastudio.google.com/u/0/reporting/d1a84072-af82-44c5-b6d8-b8ee2670ac36/page/p\_5ytt46n88d**
+## Estrutura do repositório
 
-!\[Dashboard executivo](assets/dashboard.png)
+```text
+spotify-playlist-analysis/
+├── assets/
+│   └── dashboard.png
+├── docs/
+│   ├── ficha_tecnica.md
+│   └── origem_dos_scripts.md
+├── sql/
+│   ├── 01_preparacao_dados.sql
+│   ├── 02_integracao_views.sql
+│   ├── 03_analise_exploratoria.sql
+│   ├── 04_correlacoes.sql
+│   ├── 05_indicadores_dashboard.sql
+│   └── 06_validacoes.sql
+├── ficha-tecnica.html
+├── index.html
+└── README.md
+```
 
-## Como reproduzir
+**Documentação:** [ficha técnica em Markdown](docs/ficha_tecnica.md) · [origem e rastreabilidade dos scripts](docs/origem_dos_scripts.md).
 
-As consultas usam o projeto `projeto-spotify-513019` e o dataset `dados\\\_spotify`. Para reproduzir em outro ambiente, ajuste os identificadores e disponibilize as tabelas de origem conforme as permissões de uso dos dados. **Atenção:** scripts `CREATE OR REPLACE` substituem objetos existentes; não execute sem revisar o destino.
+**Consultas SQL:** [preparação](sql/01_preparacao_dados.sql) · [integração](sql/02_integracao_views.sql) · [exploração](sql/03_analise_exploratoria.sql) · [correlações](sql/04_correlacoes.sql) · [indicadores](sql/05_indicadores_dashboard.sql) · [validações](sql/06_validacoes.sql).
 
-## Limitações
+## Reprodutibilidade e origem das consultas
 
-A análise usa streams acumulados do Spotify mesmo quando compara playlists de outras plataformas. Não distingue playlists editoriais, algorítmicas ou de usuários e não contém custos de curadoria nem séries temporais. Portanto, as conclusões são descritivas e associativas.
+As consultas utilizam o projeto BigQuery `projeto-spotify-513019` e o dataset `dados_spotify`. Para executá-las em outro ambiente, é necessário ajustar os identificadores e disponibilizar as tabelas de origem conforme as permissões de uso dos dados.
 
-## Documentação de acompanhamento
+Parte dos scripts foi **recuperada do histórico de jobs do BigQuery**, com comentários e agrupamento para apresentação; outras consultas foram **organizadas posteriormente** para facilitar exploração e validação. Os detalhes estão em [origem dos scripts](docs/origem_dos_scripts.md). **Os resultados e scripts ainda devem ser reexecutados no BigQuery para validação de ponta a ponta.**
 
-* [Jira — Análises e correlações](https://janaina-plab.atlassian.net/browse/KAN-11)
+> **Atenção:** comandos `CREATE OR REPLACE` podem substituir objetos existentes. Revise o projeto e o dataset de destino antes da execução.
 
+## Limitações e próximos passos
+
+A amostra não representa todo o catálogo do Spotify. A base não diferencia adequadamente playlists editoriais, algorítmicas e de usuários; não inclui custos de curadoria nem séries temporais comparáveis. Como evolução, seria importante acompanhar o desempenho antes e depois da inclusão em playlists e segmentar os resultados por tipo de playlist.
+
+## Autoria
+
+**Janaína Ramos de Oliveira** · Projeto individual desenvolvido durante a capacitação da **Laboratoria**.
